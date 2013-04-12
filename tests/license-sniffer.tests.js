@@ -38,4 +38,11 @@ describe("license-sniffer.sniffPackageJson", function() {
             done();
         });
     });
+    
+    it("passes error to callback if JSON is badly formed", function(done) {
+        licenseSniffer.sniffPackageJson('{license: "BSD"}', function(err, license) {
+            assert.ok(err);
+            done();
+        });
+    });
 });
