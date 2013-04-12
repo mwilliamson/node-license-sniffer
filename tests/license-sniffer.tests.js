@@ -1,5 +1,8 @@
 var assert = require("assert");
 var path = require("path");
+var fs = require("fs");
+
+var temp = require("temp");
 
 var licenseSniffer = require("../");
 
@@ -19,7 +22,44 @@ describe("license-sniffer.sniff", function() {
             done();
         });
     });
+    
+    it("detects BSD license using LICENSE file if present", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            var bsdLicenseText = licenseText("bsd-2-clause");
+            fs.writeFile(path.join(moduleDirPath, "LICENSE"), bsdLicenseText);
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["BSD 2-Clause"]);
+                done();
+            }); 
+        });
+    });
+    
+    it("detects MIT license using LICENSE file if present", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            var mitLicenseText = licenseText("mit");
+            fs.writeFile(path.join(moduleDirPath, "LICENSE"), mitLicenseText);
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["MIT"]);
+                done();
+            }); 
+        });
+    });
 });
+
+function licenseText(name) {
+    return fs.readFileSync(path.join(__dirname, "../licenses/" + name), "utf8");
+}
+
+function withTemporaryModule(moduleName, callback) {
+    var moduleDirPath = temp.mkdirSync();
+    fs.writeFileSync(
+        path.join(moduleDirPath, "package.json"),
+        JSON.stringify({"name": moduleName})
+    );
+    callback(moduleDirPath);
+}
 
 
 describe("license-sniffer.sniffPackageJson", function() {

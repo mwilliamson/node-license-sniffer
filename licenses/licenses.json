@@ -1,0 +1,10 @@
+[
+    {
+        "name": "BSD 2-Clause",
+        "path": "bsd-2-clause"
+    },
+    {
+        "name": "MIT",
+        "path": "mit"
+    }
+]

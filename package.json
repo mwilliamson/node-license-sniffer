@@ -12,10 +12,13 @@
         "url": "https://github.com/mwilliamson/node-license-sniffer.git"
     },
     "dependencies": {
-        "optimist": "0.3.7"
+        "optimist": "~0.3.7",
+        "natural": "~0.1.20",
+        "underscore": "~1.4.4"
     },
     "devDependencies": {
-        "mocha": "~1.8"
+        "mocha": "~1.8",
+        "temp": "~0.5.0"
     },
     "license": "BSD",
     "scripts": {
