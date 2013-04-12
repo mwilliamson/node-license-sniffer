@@ -8,7 +8,7 @@ describe("license-sniffer.sniff", function() {
     it("detects itself as BSD", function(done) {
         licenseSniffer.sniff(path.join(__dirname, ".."), function(err, license) {
             assert.ifError(err);
-            assert.equal(license, "BSD");
+            assert.deepEqual(license.names, ["BSD"]);
             done();
         });
     });
@@ -34,7 +34,7 @@ describe("license-sniffer.sniffPackageJson", function() {
     it("reads license field", function(done) {
         licenseSniffer.sniffPackageJson({license: "BSD"}, function(err, license) {
             assert.ifError(err);
-            assert.equal(license, "BSD");
+            assert.deepEqual(license.names, ["BSD"]);
             done();
         });
     });
@@ -42,7 +42,7 @@ describe("license-sniffer.sniffPackageJson", function() {
     it("packageJson is parsed to JSON object if its a string", function(done) {
         licenseSniffer.sniffPackageJson('{"license": "BSD"}', function(err, license) {
             assert.ifError(err);
-            assert.equal(license, "BSD");
+            assert.deepEqual(license.names, ["BSD"]);
             done();
         });
     });
@@ -65,7 +65,7 @@ describe("license-sniffer.sniffPackageJson", function() {
         };
         licenseSniffer.sniffPackageJson(packageJson, function(err, license) {
             assert.ifError(err);
-            assert.equal(license, "BSD");
+            assert.deepEqual(license.names, ["BSD"]);
             done();
         });
     });
