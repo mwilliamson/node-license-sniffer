@@ -20,3 +20,14 @@ describe("license-sniffer.sniff", function() {
         });
     });
 });
+
+
+describe("license-sniffer.sniffPackageJson", function() {
+    it("reads license field", function(done) {
+        licenseSniffer.sniffPackageJson({license: "BSD"}, function(err, license) {
+            assert.ifError(err);
+            assert.equal(license, "BSD");
+            done();
+        });
+    });
+});
