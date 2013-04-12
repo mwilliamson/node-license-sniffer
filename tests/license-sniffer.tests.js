@@ -23,6 +23,14 @@ describe("license-sniffer.sniff", function() {
 
 
 describe("license-sniffer.sniffPackageJson", function() {
+    it("reads license as null if it cannot be sniffed", function(done) {
+        licenseSniffer.sniffPackageJson({}, function(err, license) {
+            assert.ifError(err);
+            assert.equal(license, null);
+            done();
+        });
+    });
+    
     it("reads license field", function(done) {
         licenseSniffer.sniffPackageJson({license: "BSD"}, function(err, license) {
             assert.ifError(err);
