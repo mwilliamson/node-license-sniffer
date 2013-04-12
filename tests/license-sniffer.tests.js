@@ -12,4 +12,11 @@ describe("license-sniffer.sniff", function() {
             done();
         });
     });
+    
+    it("errors if package.json doesn't exist", function(done) {
+        licenseSniffer.sniff(__dirname, function(err, license) {
+            assert.ok(err);
+            done();
+        });
+    });
 });
