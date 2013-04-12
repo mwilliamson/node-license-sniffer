@@ -69,4 +69,15 @@ describe("license-sniffer.sniffPackageJson", function() {
             done();
         });
     });
+    
+    it("reads multiple licenses if licenses has many elements", function(done) {
+        var packageJson = {
+            licenses: [{type: "BSD"}, {type: "MIT"}]
+        };
+        licenseSniffer.sniffPackageJson(packageJson, function(err, license) {
+            assert.ifError(err);
+            assert.deepEqual(license.names, ["BSD", "MIT"]);
+            done();
+        });
+    });
 });
