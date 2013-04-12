@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+var optimist = require("optimist");
+
+var licenseSniffer = require("../");
+
+
+var projectPath = optimist.argv._[0] || ".";
+licenseSniffer.sniff(projectPath);
