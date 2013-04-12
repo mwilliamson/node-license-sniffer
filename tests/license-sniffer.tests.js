@@ -47,6 +47,18 @@ describe("license-sniffer.sniff", function() {
         });
     });
     
+    it("detects unlicense using UNLICENSE file if present", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            var unlicenseText = licenseText("unlicense");
+            fs.writeFile(path.join(moduleDirPath, "UNLICENSE"), unlicenseText);
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["Public domain"]);
+                done();
+            }); 
+        });
+    });
+    
     it("detects no license if LICENSE is not similar to any known license", function(done) {
         withTemporaryModule("test-module", function(moduleDirPath) {
             fs.writeFile(path.join(moduleDirPath, "LICENSE"), "Been Listening");

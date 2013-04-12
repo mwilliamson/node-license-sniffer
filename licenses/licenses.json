@@ -6,5 +6,9 @@
     {
         "name": "MIT",
         "path": "mit"
+    },
+    {
+        "name": "Public domain",
+        "path": "unlicense"
     }
 ]
