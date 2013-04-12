@@ -45,4 +45,20 @@ describe("license-sniffer.sniffPackageJson", function() {
             done();
         });
     });
+    
+    it("reads licenses field if license field is not present", function(done) {
+        var packageJson = {
+            licenses: [
+                {
+                    type: "BSD",
+                    url: "http://opensource.org/licenses/BSD-2-Clause"
+                }
+            ]
+        };
+        licenseSniffer.sniffPackageJson(packageJson, function(err, license) {
+            assert.ifError(err);
+            assert.equal(license, "BSD");
+            done();
+        });
+    });
 });
