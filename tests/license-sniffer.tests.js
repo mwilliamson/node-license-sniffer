@@ -30,4 +30,12 @@ describe("license-sniffer.sniffPackageJson", function() {
             done();
         });
     });
+    
+    it("packageJson is parsed to JSON object if its a string", function(done) {
+        licenseSniffer.sniffPackageJson('{"license": "BSD"}', function(err, license) {
+            assert.ifError(err);
+            assert.equal(license, "BSD");
+            done();
+        });
+    });
 });
