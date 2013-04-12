@@ -23,10 +23,10 @@ describe("license-sniffer.sniff", function() {
 
 
 describe("license-sniffer.sniffPackageJson", function() {
-    it("reads license as null if it cannot be sniffed", function(done) {
+    it("reads license names as empty list if package.json is empty", function(done) {
         licenseSniffer.sniffPackageJson({}, function(err, license) {
             assert.ifError(err);
-            assert.equal(license, null);
+            assert.deepEqual(license.names, []);
             done();
         });
     });

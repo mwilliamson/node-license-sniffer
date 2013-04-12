@@ -6,4 +6,11 @@ var licenseSniffer = require("../");
 
 
 var projectPath = optimist.argv._[0] || ".";
-licenseSniffer.sniff(projectPath);
+licenseSniffer.sniff(projectPath, function(err, license) {
+    if (err) {
+        console.error(err);
+    } else {
+        var names = license.names.length ? license.names : ["Unknown license"];
+        console.log(names.join(", "));
+    }
+});
