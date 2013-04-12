@@ -46,6 +46,17 @@ describe("license-sniffer.sniff", function() {
             }); 
         });
     });
+    
+    it("detects no license if LICENSE is not similar to any known license", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFile(path.join(moduleDirPath, "LICENSE"), "Been Listening");
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, []);
+                done();
+            });
+        });
+    });
 });
 
 function licenseText(name) {
