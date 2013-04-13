@@ -19,6 +19,14 @@ describe("license-sniffer.sniff", function() {
         });
     });
     
+    it("includes license text from LICENSE if present", function(done) {
+        licenseSniffer.sniff(path.join(__dirname, ".."), function(err, license) {
+            assert.ifError(err);
+            assert.deepEqual(license.text, fs.readFileSync(path.join(__dirname, "../LICENSE"), "utf8"));
+            done();
+        });
+    });
+    
     it("errors if package.json doesn't exist", function(done) {
         licenseSniffer.sniff(__dirname, function(err, license) {
             assert.ok(err);
