@@ -275,15 +275,15 @@ describe("license-sniffer.sniffRecursive", function() {
         withTemporaryModule("test-module", function(modulePath) {
             writeFileSync(
                 path.join(modulePath, "package.json"),
-                JSON.stringify({name: "root", license: "BSD"})
+                JSON.stringify({name: "root", version: "0.1", license: "BSD"})
             );
             writeFileSync(
                 path.join(modulePath, "node_modules/one/package.json"),
-                JSON.stringify({name: "sub", license: "MIT"})
+                JSON.stringify({name: "sub", version: "0.4", license: "MIT"})
             );
             writeFileSync(
                 path.join(modulePath, "node_modules/one/node_modules/one-one/package.json"),
-                JSON.stringify({name: "sub-sub", license: "Apache"})
+                JSON.stringify({name: "sub-sub", version: "1.4.5", license: "Apache"})
             );
             licenseSniffer.sniffRecursive(modulePath, function(err, result) {
                 assert.ifError(err);
@@ -291,17 +291,17 @@ describe("license-sniffer.sniffRecursive", function() {
                     duck.hasProperties({
                         modulePath: modulePath,
                         names: ["BSD"],
-                        dependencyChain: ["root"]
+                        dependencyChain: ["root@0.1"]
                     }),
                     duck.hasProperties({
                         modulePath: path.join(modulePath, "node_modules/one"),
                         names: ["MIT"],
-                        dependencyChain: ["root", "sub"]
+                        dependencyChain: ["root@0.1", "sub@0.4"]
                     }),
                     duck.hasProperties({
                         modulePath: path.join(modulePath, "node_modules/one/node_modules/one-one"),
                         names: ["Apache"],
-                        dependencyChain: ["root", "sub", "sub-sub"]
+                        dependencyChain: ["root@0.1", "sub@0.4", "sub-sub@1.4.5"]
                     })
                 ]));
                 done();
