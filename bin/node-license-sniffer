@@ -9,11 +9,15 @@ var argv = optimist.argv;
 var modulePath = argv._[0] || ".";
 
 if (argv.recurse) {
-    licenseSniffer.sniffRecursive(modulePath, function(err, result) {
+    licenseSniffer.sniffRecursive(modulePath, function(err, licenses) {
         if (err) {
             console.error(err);
         } else {
-            console.log(result);
+            licenses.forEach(function(license) {
+                console.log("Module: " + license.modulePath);
+                console.log("License: " + license.toString());
+                console.log();
+            });
         }
     });
 } else {
