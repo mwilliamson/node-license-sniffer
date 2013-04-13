@@ -5,11 +5,8 @@
     },
     {
         "name": "BSD 3-Clause",
-        "path": "bsd-3-clause"
-    },
-    {
-        "name": "BSD",
-        "path": "bsd-3-clause"
+        "path": "bsd-3-clause",
+        "aliases": ["BSD"]
     },
     {
         "name": "MIT",

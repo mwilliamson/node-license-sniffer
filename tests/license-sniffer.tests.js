@@ -29,7 +29,6 @@ describe("license-sniffer.sniff", function() {
     
     it("uses license template if package.json contains license but LICENSE does not exist", function(done) {
         withTemporaryModule("test-module", function(moduleDirPath) {
-            var bsdLicenseText = licenseText("bsd-2-clause");
             fs.writeFileSync(
                 path.join(moduleDirPath, "package.json"),
                 JSON.stringify({name: "test-module", license: "MIT"})
@@ -44,6 +43,24 @@ describe("license-sniffer.sniff", function() {
             }); 
         });
     });
+    
+    it("uses license alias to find license template", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFileSync(
+                path.join(moduleDirPath, "package.json"),
+                JSON.stringify({name: "test-module", license: "BSD"})
+            );
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                var expectedPrefix =
+                    "Copyright (c) 2013, test-module\n" +
+                    "All rights reserved.";
+                assert.equal(license.text.substring(0, expectedPrefix.length), expectedPrefix);
+                done();
+            }); 
+        });
+    });
+    
     
     
     it("errors if package.json doesn't exist", function(done) {
