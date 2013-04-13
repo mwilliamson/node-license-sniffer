@@ -8,21 +8,31 @@ var licenseSniffer = require("../");
 var argv = optimist.argv;
 var modulePath = argv._[0] || ".";
 
+if (argv["js-comment"]) {
+    var writeLine = function(value) {
+        console.log((value || "").replace(/(^|\n)/g, "$1// "));
+    };
+} else {
+    var writeLine = function(value) {
+        console.log(value || "");
+    };
+}
+
 if (argv.recurse) {
     licenseSniffer.sniffRecursive(modulePath, function(err, licenses) {
         if (err) {
             console.error(err);
         } else {
             licenses.forEach(function(license) {
-                console.log("Module: " + license.dependencyChain.join(" => "));
-                console.log("License: " + license.describeLicense());
+                writeLine("Module: " + license.dependencyChain.join(" => "));
+                writeLine("License: " + license.describeLicense());
                 
                 if (argv.body && license.text) {
-                    console.log();
-                    console.log(license.text.replace(/(^|\n)/g, "$1    "));
+                    writeLine();
+                    writeLine(license.text.replace(/(^|\n)/g, "$1    "));
                 }
                 
-                console.log();
+                writeLine();
             });
         }
     });
@@ -31,7 +41,7 @@ if (argv.recurse) {
         if (err) {
             console.error(err);
         } else {
-            console.log(license.describeLicense());
+            writeLine(license.describeLicense());
         }
     });
 }
