@@ -15,7 +15,8 @@
         "optimist": "~0.3.7",
         "natural": "~0.1.20",
         "underscore": "~1.4.4",
-        "q": "~0.9.2"
+        "q": "~0.9.2",
+        "markdown": "~0.4.0"
     },
     "devDependencies": {
         "mocha": "~1.8",

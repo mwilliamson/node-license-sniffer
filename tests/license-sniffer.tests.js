@@ -9,6 +9,8 @@ var licenseSniffer = require("../");
 
 
 describe("license-sniffer.sniff", function() {
+    this.timeout(5000);
+    
     it("detects itself as BSD", function(done) {
         licenseSniffer.sniff(path.join(__dirname, ".."), function(err, license) {
             assert.ifError(err);
@@ -66,6 +68,30 @@ describe("license-sniffer.sniff", function() {
             licenseSniffer.sniff(moduleDirPath, function(err, license) {
                 assert.ifError(err);
                 assert.deepEqual(license.names, []);
+                done();
+            });
+        });
+    });
+    
+    it("detects license text if included in README.md", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFile(path.join(moduleDirPath, "README.md"), "## License\n\n" + licenseText("mit"));
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["MIT"]);
+                done();
+            });
+        });
+    });
+    
+    it("only considers text in README.md following 'License' header", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            var readmePrefix = new Array(1000).join("rabbit ");
+            var readmeContents = readmePrefix + "\n\n## License\n\n" + licenseText("mit");
+            fs.writeFile(path.join(moduleDirPath, "README.md"), readmeContents);
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["MIT"]);
                 done();
             });
         });
