@@ -14,7 +14,7 @@ if (argv.recurse) {
             console.error(err);
         } else {
             licenses.forEach(function(license) {
-                console.log("Module: " + license.modulePath);
+                console.log("Module: " + license.dependencyChain.join(" => "));
                 console.log("License: " + license.describeLicense());
                 console.log();
             });
