@@ -97,6 +97,20 @@ describe("license-sniffer.sniff", function() {
             });
         });
     });
+    
+    it("ignores text after license", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            var readmeJunk = new Array(1000).join("rabbit ");
+            
+            var readmeContents = "## License\n\n" + licenseText("mit") + "\n\n##The rest\n\n" + readmeJunk;
+            fs.writeFile(path.join(moduleDirPath, "README.md"), readmeContents);
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["MIT"]);
+                done();
+            });
+        });
+    });
 });
 
 function licenseText(name) {
