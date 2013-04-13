@@ -58,6 +58,19 @@ describe("license-sniffer.sniff", function() {
         });
     });
     
+    it("includes license text when detecting licence using LICENSE file", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            // Add a bit on the end to make sure we're actually reading from the module
+            var bsdLicenseText = licenseText("bsd-2-clause") + "\n\n2-clause BSD";
+            fs.writeFileSync(path.join(moduleDirPath, "LICENSE"), bsdLicenseText);
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.text, bsdLicenseText);
+                done();
+            });
+        });
+    });
+    
     it("detects unlicense using UNLICENSE file if present", function(done) {
         withTemporaryModule("test-module", function(moduleDirPath) {
             var unlicenseText = licenseText("unlicense");
