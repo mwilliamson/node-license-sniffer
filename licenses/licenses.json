@@ -4,6 +4,14 @@
         "path": "bsd-2-clause"
     },
     {
+        "name": "BSD 3-Clause",
+        "path": "bsd-3-clause"
+    },
+    {
+        "name": "BSD",
+        "path": "bsd-3-clause"
+    },
+    {
         "name": "MIT",
         "path": "mit"
     },
