@@ -5,12 +5,24 @@ var optimist = require("optimist");
 var licenseSniffer = require("../");
 
 
-var projectPath = optimist.argv._[0] || ".";
-licenseSniffer.sniff(projectPath, function(err, license) {
-    if (err) {
-        console.error(err);
-    } else {
-        var names = license.names.length ? license.names : ["Unknown license"];
-        console.log(names.join(", "));
-    }
-});
+var argv = optimist.argv;
+var modulePath = argv._[0] || ".";
+
+if (argv.recurse) {
+    licenseSniffer.sniffRecursive(modulePath, function(err, result) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(result);
+        }
+    });
+} else {
+    licenseSniffer.sniff(modulePath, function(err, license) {
+        if (err) {
+            console.error(err);
+        } else {
+            var names = license.names.length ? license.names : ["Unknown license"];
+            console.log(names.join(", "));
+        }
+    });
+}
