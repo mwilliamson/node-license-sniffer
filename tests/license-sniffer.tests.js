@@ -4,6 +4,7 @@ var fs = require("fs");
 
 var mkdirp = require("mkdirp");
 var temp = require("temp");
+var duck = require("duck");
 
 var licenseSniffer = require("../");
 
@@ -286,14 +287,11 @@ describe("license-sniffer.sniffRecursive", function() {
             );
             licenseSniffer.sniffRecursive(modulePath, function(err, result) {
                 assert.ifError(err);
-                assert.deepEqual(
-                    result,
-                    [
-                        {modulePath: modulePath, names: ["BSD"]},
-                        {modulePath: path.join(modulePath, "node_modules/one"), names: ["MIT"]},
-                        {modulePath: path.join(modulePath, "node_modules/one/node_modules/one-one"), names: ["Apache"]}
-                    ]
-                );
+                assertThat(result, duck.isArray([
+                    duck.hasProperties({modulePath: modulePath, names: ["BSD"]}),
+                    duck.hasProperties({modulePath: path.join(modulePath, "node_modules/one"), names: ["MIT"]}),
+                    duck.hasProperties({modulePath: path.join(modulePath, "node_modules/one/node_modules/one-one"), names: ["Apache"]})
+                ]));
                 done();
             });
         });
@@ -303,4 +301,9 @@ describe("license-sniffer.sniffRecursive", function() {
 function writeFileSync(filePath, contents) {
     mkdirp.sync(path.dirname(filePath));
     fs.writeFileSync(filePath, contents);
+}
+
+function assertThat(value, matcher) {
+    var result = matcher.matchesWithDescription(value);
+    assert.ok(result.matches, result.description);
 }
