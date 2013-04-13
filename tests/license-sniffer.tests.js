@@ -226,6 +226,20 @@ describe("license-sniffer.sniffPackageJson", function() {
         });
     });
     
+    it("license field can be object", function(done) {
+        var packageJson = {
+            license: {
+                type: "BSD",
+                url: "http://opensource.org/licenses/BSD-2-Clause"
+            }
+        };
+        licenseSniffer.sniffPackageJson(packageJson, function(err, license) {
+            assert.ifError(err);
+            assert.deepEqual(license.names, ["BSD"]);
+            done();
+        });
+    });
+    
     it("reads multiple licenses if licenses has many elements", function(done) {
         var packageJson = {
             licenses: [{type: "BSD"}, {type: "MIT"}]
