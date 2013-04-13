@@ -111,6 +111,17 @@ describe("license-sniffer.sniff", function() {
             });
         });
     });
+    
+    it("can find readme.md when not all uppercase", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFile(path.join(moduleDirPath, "Readme.md"), "## License\n\n" + licenseText("mit"));
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.deepEqual(license.names, ["MIT"]);
+                done();
+            });
+        });
+    });
 });
 
 function licenseText(name) {
