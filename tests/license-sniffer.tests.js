@@ -86,8 +86,9 @@ describe("license-sniffer.sniff", function() {
     
     it("only considers text in README.md following 'License' header", function(done) {
         withTemporaryModule("test-module", function(moduleDirPath) {
-            var readmePrefix = new Array(1000).join("rabbit ");
-            var readmeContents = readmePrefix + "\n\n## License\n\n" + licenseText("mit");
+            var readmeJunk = new Array(1000).join("rabbit ");
+            
+            var readmeContents = "license\n\n## Introduction\n\n" + readmeJunk + "\n\n## License\n\n" + licenseText("mit");
             fs.writeFile(path.join(moduleDirPath, "README.md"), readmeContents);
             licenseSniffer.sniff(moduleDirPath, function(err, license) {
                 assert.ifError(err);
