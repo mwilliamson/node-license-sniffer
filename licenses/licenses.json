@@ -10,7 +10,8 @@
     },
     {
         "name": "MIT",
-        "path": "mit"
+        "path": "mit",
+        "aliases": ["MIT/X11"]
     },
     {
         "name": "Public domain",
