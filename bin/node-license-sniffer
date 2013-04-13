@@ -21,8 +21,7 @@ if (argv.recurse) {
         if (err) {
             console.error(err);
         } else {
-            var names = license.names.length ? license.names : ["Unknown license"];
-            console.log(names.join(", "));
+            console.log(license.toString());
         }
     });
 }
