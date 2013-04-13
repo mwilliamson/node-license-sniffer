@@ -275,22 +275,34 @@ describe("license-sniffer.sniffRecursive", function() {
         withTemporaryModule("test-module", function(modulePath) {
             writeFileSync(
                 path.join(modulePath, "package.json"),
-                JSON.stringify({license: "BSD"})
+                JSON.stringify({name: "root", license: "BSD"})
             );
             writeFileSync(
                 path.join(modulePath, "node_modules/one/package.json"),
-                JSON.stringify({license: "MIT"})
+                JSON.stringify({name: "sub", license: "MIT"})
             );
             writeFileSync(
                 path.join(modulePath, "node_modules/one/node_modules/one-one/package.json"),
-                JSON.stringify({license: "Apache"})
+                JSON.stringify({name: "sub-sub", license: "Apache"})
             );
             licenseSniffer.sniffRecursive(modulePath, function(err, result) {
                 assert.ifError(err);
                 assertThat(result, duck.isArray([
-                    duck.hasProperties({modulePath: modulePath, names: ["BSD"]}),
-                    duck.hasProperties({modulePath: path.join(modulePath, "node_modules/one"), names: ["MIT"]}),
-                    duck.hasProperties({modulePath: path.join(modulePath, "node_modules/one/node_modules/one-one"), names: ["Apache"]})
+                    duck.hasProperties({
+                        modulePath: modulePath,
+                        names: ["BSD"],
+                        dependencyChain: ["root"]
+                    }),
+                    duck.hasProperties({
+                        modulePath: path.join(modulePath, "node_modules/one"),
+                        names: ["MIT"],
+                        dependencyChain: ["root", "sub"]
+                    }),
+                    duck.hasProperties({
+                        modulePath: path.join(modulePath, "node_modules/one/node_modules/one-one"),
+                        names: ["Apache"],
+                        dependencyChain: ["root", "sub", "sub-sub"]
+                    })
                 ]));
                 done();
             });
