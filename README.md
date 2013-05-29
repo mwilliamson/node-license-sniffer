@@ -40,7 +40,7 @@ Using `--js-comment` and `--body` (truncated for brevity):
     
 Using `package-dir` and `--recurse`:
 
-    $ bin/node-license-sniffer node_modules/optimist --recurse
+    $ node-license-sniffer node_modules/optimist --recurse
     Module: optimist@0.3.7
     License: MIT/X11
 
