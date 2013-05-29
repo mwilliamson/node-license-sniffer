@@ -26,12 +26,7 @@ if (argv.recurse) {
             licenses.forEach(function(license) {
                 writeLine("Module: " + license.dependencyChain.join(" => "));
                 writeLine("License: " + license.describeLicense());
-                
-                if (argv.body && license.text) {
-                    writeLine();
-                    writeLine(license.text.replace(/(^|\n)/g, "$1    "));
-                }
-                
+                writeBody(license);
                 writeLine();
             });
         }
@@ -42,6 +37,14 @@ if (argv.recurse) {
             console.error(err);
         } else {
             writeLine(license.describeLicense());
+            writeBody(license);
         }
     });
+}
+
+function writeBody(license) {
+    if (argv.body && license.text) {
+        writeLine();
+        writeLine(license.text.replace(/(^|\n)/g, "$1    "));
+    }
 }
