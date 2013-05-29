@@ -1,6 +1,6 @@
 {
     "name": "license-sniffer",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "Michael Williamson <mike@zwobble.org>",
     "description": "Detect the license of node.js projects and their dependencies",
     "main": "./lib/index.js",
