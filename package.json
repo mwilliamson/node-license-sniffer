@@ -27,5 +27,6 @@
     "license": "BSD",
     "scripts": {
         "test": "mocha tests"
-    }
+    },
+    "keywords": ["license", "licence", "sniffer", "sniff", "detect"]
 }
