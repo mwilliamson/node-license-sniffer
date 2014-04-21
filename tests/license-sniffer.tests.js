@@ -46,6 +46,20 @@ describe("license-sniffer.sniff", function() {
         });
     });
 
+    it("does not use license template if generate licenses is false", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFileSync(
+                path.join(moduleDirPath, "package.json"),
+                JSON.stringify({name: "test-module", license: "MIT"})
+            );
+            licenseSniffer.sniff(moduleDirPath, {generateLicenses: false}, function(err, license) {
+                assert.ifError(err);
+                assert.equal(license.text, null);
+                done();
+            });
+        });
+    });
+
     it("uses license alias to find license template", function(done) {
         withTemporaryModule("test-module", function(moduleDirPath) {
             fs.writeFileSync(
