@@ -21,11 +21,18 @@ describe("license-sniffer.sniff", function() {
         });
     });
 
-    it("includes license text from LICENSE if present", function(done) {
-        licenseSniffer.sniff(path.join(__dirname, ".."), function(err, license) {
-            assert.ifError(err);
-            assert.deepEqual(license.text, fs.readFileSync(path.join(__dirname, "../LICENSE"), "utf8"));
-            done();
+    it("uses license text from LICENSE when package.json specifies license", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFileSync(
+                path.join(moduleDirPath, "package.json"),
+                JSON.stringify({name: "test-module", license: "MIT"})
+            );
+            fs.writeFileSync(path.join(moduleDirPath, "LICENSE"), "The MIT license.");
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.equal(license.text, "The MIT license.");
+                done();
+            });
         });
     });
 
