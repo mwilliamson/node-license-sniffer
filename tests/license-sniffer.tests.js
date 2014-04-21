@@ -164,6 +164,21 @@ describe("license-sniffer.sniff", function() {
         });
     });
 
+    it("uses license text from README.md when package.json specifies license", function(done) {
+        withTemporaryModule("test-module", function(moduleDirPath) {
+            fs.writeFileSync(
+                path.join(moduleDirPath, "package.json"),
+                JSON.stringify({name: "test-module", license: "MIT"})
+            );
+            fs.writeFileSync(path.join(moduleDirPath, "README.md"), "## License\n\nThe MIT license.");
+            licenseSniffer.sniff(moduleDirPath, function(err, license) {
+                assert.ifError(err);
+                assert.equal(license.text, "The MIT license.");
+                done();
+            });
+        });
+    });
+
     it("only considers text in README.md following 'License' header", function(done) {
         withTemporaryModule("test-module", function(moduleDirPath) {
             var readmeJunk = new Array(1000).join("rabbit ");
