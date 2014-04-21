@@ -11,7 +11,7 @@ it will read `LICENSE` and similarly named files and attempt to guess the licens
 
 ## Usage
 
-    node-license-sniffer [package-dir] [--js-comment] [--recurse] [--body]
+    node-license-sniffer [package-dir] [--js-comment] [--recurse] [--body] [--no-generate-body]
     
 Arguments:
 
@@ -20,6 +20,8 @@ Arguments:
   Useful if generating license information for inclusion in JavaScript files.
 * `--recurse` -- find the license for the specified package, and its dependencies.
 * `--body` -- include the body of each license where possible.
+* `--no-generate-body` -- by default, `--body` generates the body of known licenses if the license body is not included in the package.
+  Use this option to only include license bodies if they're explicitly included in the package.
 
 ## Examples
 

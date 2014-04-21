@@ -18,8 +18,14 @@ if (argv["js-comment"]) {
     };
 }
 
+var options = {};
+
+if ("generate-body" in argv) {
+    options.generateBody = argv["generate-body"];
+}
+
 if (argv.recurse) {
-    licenseSniffer.sniffRecursive(modulePath, function(err, licenses) {
+    licenseSniffer.sniffRecursive(modulePath, options, function(err, licenses) {
         if (err) {
             console.error(err);
         } else {
@@ -32,7 +38,7 @@ if (argv.recurse) {
         }
     });
 } else {
-    licenseSniffer.sniff(modulePath, function(err, license) {
+    licenseSniffer.sniff(modulePath, options, function(err, license) {
         if (err) {
             console.error(err);
         } else {
