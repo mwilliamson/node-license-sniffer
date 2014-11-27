@@ -281,6 +281,17 @@ describe("license-sniffer.sniffPackageJson", function() {
         });
     });
 
+    it("reads licenses field as array of strings if license field is not present", function(done) {
+        var packageJson = {
+            licenses: ["BSD"]
+        };
+        licenseSniffer.sniffPackageJson(packageJson, function(err, license) {
+            assert.ifError(err);
+            assert.deepEqual(license.names, ["BSD"]);
+            done();
+        });
+    });
+
     it("license field can be object", function(done) {
         var packageJson = {
             license: {
