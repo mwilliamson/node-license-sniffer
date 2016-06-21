@@ -24,7 +24,7 @@
         "mkdirp": "~0.3.5",
         "duck": "~0.1.10"
     },
-    "license": "BSD",
+    "license": "BSD-2-Clause",
     "scripts": {
         "test": "mocha tests"
     },
