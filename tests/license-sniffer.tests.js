@@ -45,7 +45,7 @@ describe("license-sniffer.sniff", function() {
             licenseSniffer.sniff(moduleDirPath, function(err, license) {
                 assert.ifError(err);
                 var expectedPrefix =
-                    "Copyright (c) 2014 test-module" + EOL + EOL +
+                    "Copyright (c) 2016 test-module" + EOL + EOL +
                     "Permission is hereby granted";
                 assert.equal(license.text.substring(0, expectedPrefix.length), expectedPrefix);
                 done();
@@ -76,7 +76,7 @@ describe("license-sniffer.sniff", function() {
             licenseSniffer.sniff(moduleDirPath, function(err, license) {
                 assert.ifError(err);
                 var expectedPrefix =
-                    "Copyright (c) 2014, test-module" + EOL +
+                    "Copyright (c) 2016, test-module" + EOL +
                     "All rights reserved.";
                 assert.equal(license.text.substring(0, expectedPrefix.length), expectedPrefix);
                 done();
